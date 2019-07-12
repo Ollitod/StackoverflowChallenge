@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <Resource id="stackoverflowchallenge" type="javax.sql.DataSource">#Fri Jul 12 14:51:01 CEST 2019
+jdbcDriver=org.postgresql.Driver
+password=pgadminplaysdart31
+userName=postgres
+jdbcUrl=jdbc\:postgresql\://localhost\:5432/so_challenge
+</Resource>
+</resources>
