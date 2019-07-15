@@ -41,11 +41,16 @@ public class UserEndpoint {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUser(@PathParam("id") int id) {
-        String json = StackExchangeUtils.sendRequestAndGetJson("SoUsers/" + id + "?site=stackoverflow", "GET");
-        if (json != null) {
-            return Response.ok(json).build();
+        User user;
+        if ((user = dao.findUser(id)) == null) {
+            String json = StackExchangeUtils.sendRequestAndGetJson("users/" + id, "GET");
+            if (json != null) {
+                return Response.ok(json).build();
+            } else {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.ok(user).build();
         }
     }
 
@@ -54,7 +59,7 @@ public class UserEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createSoUser(User user) {
-        String json = StackExchangeUtils.sendRequestAndGetJson("SoUsers/" + user.getUserId()+ "?site=stackoverflow", "GET");
+        String json = StackExchangeUtils.sendRequestAndGetJson("users/" + user.getProfileId() + "?site=stackoverflow", "GET");
         if (json == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         } else {
@@ -70,10 +75,11 @@ public class UserEndpoint {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response readAllUsers() {
-        List<User> SoUsers = dao.readAllUsers();
-        return SoUsers.isEmpty()
+        List<User> soUsers = dao.readAllUsers();
+        return soUsers.isEmpty()
                 ? Response.status(Response.Status.NO_CONTENT).build()
-                : Response.ok(new GenericEntity<List<User>>(SoUsers) {}).build();
+                : Response.ok(new GenericEntity<List<User>>(soUsers) {
+                }).build();
     }
 
     @DELETE

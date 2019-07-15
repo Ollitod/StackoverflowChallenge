@@ -1,8 +1,8 @@
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/service/UserEndpoint.java
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/model/User.java
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/model/Challenge.java
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/db/DAOLocal.java
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/db/DAO.java
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/service/ApplicationConfig.java
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/service/ChallengeEndpoint.java
-/home/praktikant_ankermann/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/utils/StackExchangeUtils.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/utils/StackExchangeUtils.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/service/UserEndpoint.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/model/User.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/service/ApplicationConfig.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/db/DAO.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/model/Challenge.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/db/DAOLocal.java
+/home/praktika2019/NetBeansProjects/StackOverflowChallenge/src/main/java/com/gepardec/stackoverflowchallenge/service/ChallengeEndpoint.java

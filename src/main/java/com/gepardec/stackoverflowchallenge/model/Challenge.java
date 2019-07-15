@@ -7,113 +7,109 @@ package com.gepardec.stackoverflowchallenge.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author praktikant_ankermann
+ * @author praktika2019
  */
 @Entity
 @Table(name = "challenge")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Challenge.findAll", query = "SELECT c FROM Challenge c")
-    , @NamedQuery(name = "Challenge.findByChallengeId", query = "SELECT c FROM Challenge c WHERE c.challengeId = :challengeId")
-    , @NamedQuery(name = "Challenge.findByChallengeEnd", query = "SELECT c FROM Challenge c WHERE c.challengeEnd = :challengeEnd")
-    , @NamedQuery(name = "Challenge.findByChallengeStart", query = "SELECT c FROM Challenge c WHERE c.challengeStart = :challengeStart")
-    , @NamedQuery(name = "Challenge.findByChallengeTitle", query = "SELECT c FROM Challenge c WHERE c.challengeTitle = :challengeTitle")})
+@SequenceGenerator(name = "challenge_seq", sequenceName = "challenge_id_seq")
 public class Challenge implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(generator = "challenge_seq")
     @Column(name = "challenge_id")
-    private Integer challengeId;
-    @Column(name = "challenge_end")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date challengeEnd;
+    private Integer id;
+    
+    @Column(name = "challenge_title")
+    private String title;
+    
     @Column(name = "challenge_start")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date challengeStart;
-    @Size(max = 255)
-    @Column(name = "challenge_title")
-    private String challengeTitle;
-    @ManyToMany(mappedBy = "challengeList")
-    private List<User> userList;
-
+    private Date start;
+    
+    @Column(name = "challenge_end")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date end;
+    
+    @ManyToMany
+    @JoinTable(name = "challenge_user", 
+            joinColumns = { @JoinColumn(name = "challenge_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") } )
+    private List<User> participants = new ArrayList<>();
+    
     public Challenge() {
+        
     }
 
-    public Challenge(Integer challengeId) {
-        this.challengeId = challengeId;
+    public Challenge(String title, Date start, Date end) {
+        this.title = title;
+        this.start = start;
+        this.end = end;
+    }
+    
+    public void addParticipant(User user) {
+        participants.add(user);
+        user.getChallenges().add(this);
     }
 
-    public Integer getChallengeId() {
-        return challengeId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setChallengeId(Integer challengeId) {
-        this.challengeId = challengeId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Date getChallengeEnd() {
-        return challengeEnd;
+    public String getTitle() {
+        return title;
     }
 
-    public void setChallengeEnd(Date challengeEnd) {
-        this.challengeEnd = challengeEnd;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Date getChallengeStart() {
-        return challengeStart;
+    public Date getStart() {
+        return start;
     }
 
-    public void setChallengeStart(Date challengeStart) {
-        this.challengeStart = challengeStart;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public String getChallengeTitle() {
-        return challengeTitle;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setChallengeTitle(String challengeTitle) {
-        this.challengeTitle = challengeTitle;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
-    @XmlTransient
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+    public List<User> getParticipants() {
+        return participants;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (challengeId != null ? challengeId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
-    }
-
-    public void addUser(User user) {
-        userList.add(user);
-        user.getChallengeList().add(this);
     }
 
     @Override
@@ -123,7 +119,7 @@ public class Challenge implements Serializable {
             return false;
         }
         Challenge other = (Challenge) object;
-        if ((this.challengeId == null && other.challengeId != null) || (this.challengeId != null && !this.challengeId.equals(other.challengeId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -131,7 +127,7 @@ public class Challenge implements Serializable {
 
     @Override
     public String toString() {
-        return "com.gepardec.stackoverflowchallenge.model.Challenge[ challengeId=" + challengeId + " ]";
+        return "com.gepardec.stackoverflowchallenge.model.Challenge[ id=" + id + " ]";
     }
-
+    
 }

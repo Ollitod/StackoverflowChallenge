@@ -23,8 +23,8 @@ public class DAO implements DAOLocal {
     private EntityManager em;
 
     @Override
-    public boolean createUser(User User) {
-        em.persist(User);
+    public boolean createUser(User user) {
+        em.persist(user);
         return true;
     }
 
@@ -47,7 +47,7 @@ public class DAO implements DAOLocal {
     @Override
     public boolean updateUser(User user) {
         User u;
-        if ((u = em.find(User.class, user.getUserId())) == null) {
+        if ((u = em.find(User.class, user.getProfileId())) == null) {
             return false;
         }
         em.merge(u);
@@ -57,7 +57,7 @@ public class DAO implements DAOLocal {
     @Override
     public boolean updateChallenge(Challenge challenge) {
         Challenge ch;
-        if ((ch = em.find(Challenge.class, challenge.getChallengeId())) == null) {
+        if ((ch = em.find(Challenge.class, challenge.getId())) == null) {
             return false;
         }
         em.merge(ch);
@@ -67,7 +67,7 @@ public class DAO implements DAOLocal {
     @Override
     public boolean deleteUser(User user) {
         User u;
-        if ((u = em.find(User.class, user.getUserId())) == null) {
+        if ((u = em.find(User.class, user.getProfileId())) == null) {
             return false;
         }
         em.remove(u);
@@ -77,7 +77,7 @@ public class DAO implements DAOLocal {
     @Override
     public boolean deleteChallenge(Challenge challenge) {
         Challenge ch;
-        if ((ch = em.find(Challenge.class, challenge.getChallengeId())) == null) {
+        if ((ch = em.find(Challenge.class, challenge.getId())) == null) {
             return false;
         }
         em.remove(ch);
@@ -96,16 +96,15 @@ public class DAO implements DAOLocal {
 
     @Override
     public boolean addUserToChallenge(int userId, int challengeId) {
-        User User;
+        User user;
         Challenge challenge;
-        if ((User = em.find(User.class, userId)) == null) {
+        if ((user = em.find(User.class, userId)) == null) {
             return false;
         }
         if ((challenge = em.find(Challenge.class, challengeId)) == null) {
             return false;
         }
-        challenge.addUser(User);
+        challenge.addParticipant(user);
         return true;
     }
-
 }

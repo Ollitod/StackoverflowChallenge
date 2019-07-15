@@ -21,6 +21,7 @@ import java.util.zip.GZIPInputStream;
 public class StackExchangeUtils {
 
     private static final String BASE_URL = "http://api.stackexchange.com/2.2/";
+    private static final String REQUEST_PARAMS = "?order=desc&sort=reputation&site=stackoverflow";
 
     public static final String sendRequestAndGetJson(String resourceURL, String requestMethod) {
         BufferedReader in = null;
@@ -30,7 +31,7 @@ public class StackExchangeUtils {
             
             return createJsonResponseFromReader(in);
         } catch (Exception e) {
-            return null;
+            return e.getMessage();
         } finally {
             try {
                 if (in != null) {
@@ -60,7 +61,7 @@ public class StackExchangeUtils {
     }
 
     private static HttpURLConnection openHttpURLConnection(String resourceURL) throws MalformedURLException, IOException {
-        URL obj = new URL(BASE_URL + resourceURL);
+        URL obj = new URL(BASE_URL + resourceURL + REQUEST_PARAMS);
         return (HttpURLConnection) obj.openConnection();
     }
 
