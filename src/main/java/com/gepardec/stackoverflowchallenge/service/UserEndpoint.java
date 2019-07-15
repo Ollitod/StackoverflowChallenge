@@ -40,14 +40,14 @@ public class UserEndpoint {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") int id) {
+    public Response getUser(@PathParam("id") long id) {
         User user;
         if ((user = dao.findUser(id)) == null) {
             String json = StackExchangeUtils.sendRequestAndGetJson("users/" + id, "GET");
             if (json != null) {
                 return Response.ok(json).build();
             } else {
-                return Response.status(Response.Status.NOT_FOUND).build();
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
         } else {
             return Response.ok(user).build();
@@ -59,12 +59,12 @@ public class UserEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createSoUser(User user) {
-        String json = StackExchangeUtils.sendRequestAndGetJson("users/" + user.getProfileId() + "?site=stackoverflow", "GET");
+        String json = StackExchangeUtils.sendRequestAndGetJson("users/" + user.getProfileId(), "GET");
         if (json == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         } else {
             if (dao.createUser(user)) {
-                return Response.status(Response.Status.CREATED).build();
+                return Response.status(Response.Status.CREATED).entity(user).build();
             } else {
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             }
@@ -86,8 +86,8 @@ public class UserEndpoint {
     @Path("delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteUser(@PathParam("id") Integer id) {
-        User user = dao.findUser(id);
-        if (dao.deleteUser(user)) {
+        User user = dao.deleteUser(id);
+        if (user != null) {
             return Response.ok(user).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();

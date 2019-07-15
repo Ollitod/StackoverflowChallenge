@@ -37,7 +37,7 @@ public class ChallengeEndpoint {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson() {
+    public String getChallenge() {
         //TODO return proper representation object
         throw new UnsupportedOperationException();
     }

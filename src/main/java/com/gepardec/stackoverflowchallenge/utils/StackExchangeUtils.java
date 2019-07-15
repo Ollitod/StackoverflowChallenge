@@ -13,6 +13,11 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import org.eclipse.persistence.internal.oxm.record.json.JSONReader;
 
 /**
  *
@@ -25,33 +30,29 @@ public class StackExchangeUtils {
 
     public static final String sendRequestAndGetJson(String resourceURL, String requestMethod) {
         BufferedReader in = null;
-
+        JsonObject o;
+        JsonReader r;
         try {
             in = createBufferedReader(resourceURL, requestMethod);
-            
-            return createJsonResponseFromReader(in);
+            r = Json.createReader(in);
+            o = r.readObject();
+            if (o.containsKey("error_id") || o.getJsonArray("items").isEmpty()) {
+                return null;
+            } else {
+                return o.toString();
+            }
         } catch (Exception e) {
-            return e.getMessage();
+            return null;
         } finally {
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (IOException ex) {
+                return null;
             }
         }
 
-    }
-
-    private static String createJsonResponseFromReader(BufferedReader in) throws IOException {
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        
-        return response.toString();
     }
 
     private static BufferedReader createBufferedReader(String resourceURL, String requestMethod) throws ProtocolException, IOException {

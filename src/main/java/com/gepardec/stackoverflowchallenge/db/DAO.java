@@ -24,8 +24,13 @@ public class DAO implements DAOLocal {
 
     @Override
     public boolean createUser(User user) {
-        em.persist(user);
-        return true;
+        if (findUser(user.getProfileId()) == null) {
+            em.persist(user);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Override
@@ -36,7 +41,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<User> readAllUsers() {
-        return em.createQuery("select u from User u", User.class).getResultList();
+        return em.createQuery("select u from User u order by u.profileId", User.class).getResultList();
     }
 
     @Override
@@ -65,37 +70,39 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public boolean deleteUser(User user) {
-        User u;
-        if ((u = em.find(User.class, user.getProfileId())) == null) {
-            return false;
+    public User deleteUser(long id) {
+        User user;
+        if ((user = em.find(User.class, id)) == null) {
+            return null;
+        } else {
+            em.remove(user);
+            return user;
         }
-        em.remove(u);
-        return true;
     }
 
     @Override
-    public boolean deleteChallenge(Challenge challenge) {
-        Challenge ch;
-        if ((ch = em.find(Challenge.class, challenge.getId())) == null) {
-            return false;
+    public Challenge deleteChallenge(long id) {
+        Challenge challenge;
+        if ((challenge = em.find(Challenge.class, id)) == null) {
+            return null;
+        } else {
+            em.remove(challenge);
+            return challenge;
         }
-        em.remove(ch);
-        return true;
     }
 
     @Override
-    public User findUser(int userId) {
+    public User findUser(long userId) {
         return em.find(User.class, userId);
     }
 
     @Override
-    public Challenge findChallenge(int challengeId) {
+    public Challenge findChallenge(long challengeId) {
         return em.find(Challenge.class, challengeId);
     }
 
     @Override
-    public boolean addUserToChallenge(int userId, int challengeId) {
+    public boolean addUserToChallenge(long userId, int challengeId) {
         User user;
         Challenge challenge;
         if ((user = em.find(User.class, userId)) == null) {

@@ -26,7 +26,7 @@ public class User implements Serializable {
     
     @Id
     @Column(name = "user_userId")
-    private Integer profileId;
+    private Long profileId;
     
     @Column(name = "user_username")
     private String username;
@@ -41,16 +41,16 @@ public class User implements Serializable {
         
     }
     
-    public User(int profileId, String username) {
+    public User(long profileId, String username) {
         this.profileId = profileId;
         this.username = username;
     }
 
-    public Integer getProfileId() {
+    public Long getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(Integer profileId) {
+    public void setProfileId(Long profileId) {
         this.profileId = profileId;
     }
 

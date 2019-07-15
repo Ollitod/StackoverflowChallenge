@@ -30,13 +30,13 @@ public interface DAOLocal {
 
     boolean updateChallenge(Challenge challenge);
 
-    boolean deleteUser(User user);
+    User deleteUser(long id);
 
-    boolean deleteChallenge(Challenge challenge);
+    Challenge deleteChallenge(long id);
 
-    User findUser(int userId);
+    User findUser(long userId);
 
-    Challenge findChallenge(int challengeId);
+    Challenge findChallenge(long challengeId);
 
-    boolean addUserToChallenge(int userId, int challengeId);
+    boolean addUserToChallenge(long userId, int challengeId);
 }
