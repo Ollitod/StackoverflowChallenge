@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gepardec.stackoverflowchallenge.model;
+package com.gepardec.stackoverflowchallenge.test;
 
+import com.gepardec.stackoverflowchallenge.model.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
@@ -21,39 +22,25 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.ws.rs.core.GenericEntity;
 
 /**
  *
  * @author praktika2019
  */
-@Entity
-@Table(name = "challenge")
-@SequenceGenerator(name = "challenge_seq", sequenceName = "challenge_id_seq")
 public class Challenge implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(generator = "challenge_seq")
-    @Column(name = "challenge_id")
     private Integer id;
     
-    @Column(name = "challenge_title")
     private String title;
     
-    @Column(name = "challenge_start")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date start;
     
-    @Column(name = "challenge_end")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date end;
     
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "challenge_user", 
-            joinColumns = { @JoinColumn(name = "challenge_id", referencedColumnName = "challenge_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "user_userId") } )
-    private List<User> participants;
+    private GenericEntity<List<User>> participantsEntity;
     
     public Challenge() {
         
@@ -63,10 +50,6 @@ public class Challenge implements Serializable {
         this.title = title;
         this.start = start;
         this.end = end;
-    }
-    
-    public void addParticipant(User user) {
-        participants.add(user);
     }
 
     public Integer getId() {
@@ -101,8 +84,12 @@ public class Challenge implements Serializable {
         this.end = end;
     }
 
-    public List<User> getParticipants() {
-        return participants;
+    public GenericEntity<List<com.gepardec.stackoverflowchallenge.test.User>> getParticipantsEntity() {
+        return participantsEntity;
+    }
+
+    public void setParticipantsEntity(GenericEntity<List<com.gepardec.stackoverflowchallenge.test.User>> participantsEntity) {
+        this.participantsEntity = participantsEntity;
     }
 
     @Override

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gepardec.stackoverflowchallenge.model;
+package com.gepardec.stackoverflowchallenge.test;
 
+import com.gepardec.stackoverflowchallenge.model.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +19,14 @@ import javax.persistence.Table;
  *
  * @author praktika2019
  */
-@Entity
-@Table(name = "so_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @Column(name = "user_userId")
     private Long profileId;
     
-    @Column(name = "user_username")
     private String username;
     
-    @Column(name = "user_link")
     private String link;
     
     public User() {

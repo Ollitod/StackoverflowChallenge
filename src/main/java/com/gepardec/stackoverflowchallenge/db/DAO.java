@@ -35,8 +35,13 @@ public class DAO implements DAOLocal {
 
     @Override
     public boolean createChallenge(Challenge challenge) {
-        em.persist(challenge);
-        return true;
+        if (findChallenge(challenge.getId()) == null) {
+            em.persist(challenge);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Override
@@ -46,7 +51,7 @@ public class DAO implements DAOLocal {
 
     @Override
     public List<Challenge> readAllChallenges() {
-        return em.createQuery("select ch from Challenge ch", Challenge.class).getResultList();
+        return em.createQuery("select ch from Challenge ch order by ch.id", Challenge.class).getResultList();
     }
 
     @Override
@@ -60,13 +65,13 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public boolean updateChallenge(Challenge challenge) {
-        Challenge ch;
-        if ((ch = em.find(Challenge.class, challenge.getId())) == null) {
-            return false;
+    public Challenge updateChallenge(Challenge challenge) {
+        if (challenge == null || em.find(Challenge.class, challenge.getId()) == null) {
+            return null;
+        } else {
+            em.merge(challenge);
+            return challenge;
         }
-        em.merge(ch);
-        return true;
     }
 
     @Override
@@ -81,7 +86,7 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public Challenge deleteChallenge(long id) {
+    public Challenge deleteChallenge(int id) {
         Challenge challenge;
         if ((challenge = em.find(Challenge.class, id)) == null) {
             return null;
@@ -97,7 +102,7 @@ public class DAO implements DAOLocal {
     }
 
     @Override
-    public Challenge findChallenge(long challengeId) {
+    public Challenge findChallenge(int challengeId) {
         return em.find(Challenge.class, challengeId);
     }
 

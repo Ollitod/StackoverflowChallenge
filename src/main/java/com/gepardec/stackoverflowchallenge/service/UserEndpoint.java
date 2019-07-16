@@ -40,14 +40,14 @@ public class UserEndpoint {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") long id) {
+    public Response getUserById(@PathParam("id") long id) {
         User user;
         if ((user = dao.findUser(id)) == null) {
             String json = StackExchangeUtils.sendRequestAndGetJson("users/" + id, "GET");
             if (json != null) {
                 return Response.ok(json).build();
             } else {
-                return Response.status(Response.Status.BAD_REQUEST).build();
+                return Response.status(Response.Status.NOT_FOUND).build();
             }
         } else {
             return Response.ok(user).build();
@@ -74,7 +74,7 @@ public class UserEndpoint {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response readAllUsers() {
+    public Response getAllUsers() {
         List<User> soUsers = dao.readAllUsers();
         return soUsers.isEmpty()
                 ? Response.status(Response.Status.NO_CONTENT).build()

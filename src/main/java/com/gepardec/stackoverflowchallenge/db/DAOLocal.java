@@ -28,15 +28,15 @@ public interface DAOLocal {
     @Deprecated
     boolean updateUser(User User);
 
-    boolean updateChallenge(Challenge challenge);
+    Challenge updateChallenge(Challenge challenge);
 
     User deleteUser(long id);
 
-    Challenge deleteChallenge(long id);
+    Challenge deleteChallenge(int id);
 
     User findUser(long userId);
 
-    Challenge findChallenge(long challengeId);
+    Challenge findChallenge(int challengeId);
 
     boolean addUserToChallenge(long userId, int challengeId);
 }
